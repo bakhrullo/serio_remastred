@@ -39,6 +39,19 @@ class CategoryListView(ListAPIView):
         return Category.objects.filter(glob_cat_id=option)
 
 
+class ProductSearchView(ListAPIView):
+    serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        lang, option = self.request.query_params.get('lang'),  self.request.query_params.get('option')
+        if lang == "uz":
+            return Category.objects.filter(name_uz__icontains=option)
+        elif lang == "ru":
+            return Category.objects.filter(name_ru__icontains=option)
+        else:
+            return Category.objects.filter(name_en__icontains=option)
+
+
 class ProductListView(ListAPIView):
     serializer_class = ProductSerializer
 

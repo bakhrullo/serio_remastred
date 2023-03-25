@@ -10,5 +10,6 @@ urlpatterns = [
     path('api/v1/glob_category/', GlobCatListView.as_view()),
     path('api/v1/category/', CategoryListView.as_view()),
     path('api/v1/product/', ProductListView.as_view()),
+    path('api/v1/product/search', ProductSearchView.as_view()),
     path('api/v1/product/<int:id>', ProductGetView.as_view()),
 ]
