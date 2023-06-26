@@ -9,14 +9,18 @@ class UserCreateView(CreateAPIView):
 
 
 class UserUpdateView(RetrieveUpdateAPIView):
-    serializer_class = UserUpdateSerializer
+    serializer_class = UserSerializer
     lookup_field = 'tg_id'
     queryset = User.objects.all()
 
 
 class UserGetView(RetrieveAPIView):
-    serializer_class = UserUpdateSerializer
+    serializer_class = UserSerializer
     lookup_field = 'tg_id'
+    queryset = User.objects.all()
+
+class BrockListView(ListAPIView):
+    serializer_class = BrockSerializer
     queryset = User.objects.all()
 
 

@@ -9,16 +9,16 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class BrockSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Brock
+        fields = '__all__'
+
+
 class GlobCatSerializer(serializers.ModelSerializer):
     class Meta:
         model = GlobCat
         fields = '__all__'
-
-
-class UserUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['phone', 'lang']
 
 
 class CategorySerializer(serializers.ModelSerializer):
