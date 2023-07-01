@@ -15,14 +15,19 @@ class BrockSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class GlobCatSerializer(serializers.ModelSerializer):
+class RegionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = GlobCat
+        model = Region
+        fields = '__all__'
+
+
+class ServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Service
         fields = '__all__'
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    glob_cat = GlobCatSerializer()
 
     class Meta:
         model = Category
@@ -30,6 +35,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    region = RegionSerializer()
     class Meta:
         model = Product
         fields = '__all__'

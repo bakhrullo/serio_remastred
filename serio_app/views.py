@@ -21,39 +21,46 @@ class UserGetView(RetrieveAPIView):
 
 class BrockListView(ListAPIView):
     serializer_class = BrockSerializer
-    queryset = User.objects.all()
+    queryset = Brock.objects.all()
 
 
-class GlobCatGetView(RetrieveAPIView):
-    serializer_class = GlobCatSerializer
-    queryset = GlobCat.objects.all()
-    lookup_field = "id"
+class RegionListView(ListAPIView):
+    serializer_class = RegionSerializer
+    queryset = Region.objects.all()
 
 
-class GlobCatListView(ListAPIView):
-    serializer_class = GlobCatSerializer
-    queryset = GlobCat.objects.all()
+class ServiceListView(ListAPIView):
+    serializer_class = ServiceSerializer
+
+    def get_queryset(self):
+        return Service.objects.filter(brock=self.request.query_params.get("brock"),
+                                      region=self.request.query_params.get("region"))
+
+
 
 
 class CategoryListView(ListAPIView):
     serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+
+
+class AnalogListView(ListAPIView):
+    serializer_class = ProductSerializer
 
     def get_queryset(self):
-        option = self.request.query_params.get("option")
-        return Category.objects.filter(glob_cat_id=option)
-
+        return Product.objects.filter(analog=self.request.query_params.get("prod_id"))
 
 class ProductSearchView(ListAPIView):
-    serializer_class = CategorySerializer
+    serializer_class = ProductSerializer
 
     def get_queryset(self):
         lang, option = self.request.query_params.get('lang'),  self.request.query_params.get('option')
         if lang == "uz":
-            return Category.objects.filter(name_uz__icontains=option)
+            return Product.objects.filter(name_uz__icontains=option)
         elif lang == "ru":
-            return Category.objects.filter(name_ru__icontains=option)
+            return Product.objects.filter(name_ru__icontains=option)
         else:
-            return Category.objects.filter(name_en__icontains=option)
+            return Product.objects.filter(name_en__icontains=option)
 
 
 class ProductListView(ListAPIView):

@@ -9,51 +9,6 @@ class Base(models.Model):
         abstract = True
 
 
-class GlobCat(Base):
-    name_uz = models.CharField(max_length=200, verbose_name='kategroiya nomi uz')
-    name_ru = models.CharField(max_length=200, verbose_name='kategroiya nomi ru')
-    name_en = models.CharField(max_length=200, verbose_name='kategroiya nomi en')
-
-    def __str__(self):
-        return self.name_uz
-
-    class Meta:
-        verbose_name = "Bosh kategroiyalar"
-        verbose_name_plural = "Bosh kategroiyalar"
-
-
-class Category(Base):
-    glob_cat = models.ForeignKey(GlobCat, on_delete=models.CASCADE, verbose_name='Bosh kategoriya')
-    name_uz = models.CharField(max_length=200, verbose_name='Kategroiya nomi uz')
-    name_ru = models.CharField(max_length=200, verbose_name='Kategroiya nomi ru')
-    name_en = models.CharField(max_length=200, verbose_name='Kategroiya nomi en')
-
-    def __str__(self):
-        return self.name_uz
-
-    class Meta:
-        verbose_name = "Kategroiyalar"
-        verbose_name_plural = "Kategroiyalar"
-
-
-class Product(Base):
-    name_uz = models.CharField(max_length=200, verbose_name='Tovar nomi en')
-    name_ru = models.CharField(max_length=200, verbose_name='Tovar nomi ru')
-    name_en = models.CharField(max_length=200, verbose_name='Tovar nomi en')
-    price = models.CharField(max_length=100, verbose_name='Tovar narxi')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Tovar kategoriyasi')
-    descr_uz = models.TextField(verbose_name='Tovar ma\'lumotlari en')
-    descr_ru = models.TextField(verbose_name='Tovar ma\'lumotlari ru')
-    descr_en = models.TextField(verbose_name='Tovar ma\'lumotlari en')
-
-    def __str__(self):
-        return self.name_uz
-
-    class Meta:
-        verbose_name = "Tovarlar"
-        verbose_name_plural = "Tovarlar"
-
-
 class User(Base):
     name = models.CharField(max_length=200, verbose_name='Ism', null=True)
     tg_id = models.PositiveBigIntegerField(unique=True, verbose_name='Telegram id')
@@ -70,12 +25,12 @@ class User(Base):
 
 
 class Brock(Base):
-    name_uz = models.CharField(max_length=100, verbose_name='Nomi', unique=True)
-    name_ru = models.CharField(max_length=100, verbose_name='Nomi', unique=True)
-    name_en = models.CharField(max_length=100, verbose_name='Nomi', unique=True)
+    name_uz = models.CharField(max_length=100, verbose_name='Nomi uz', unique=True)
+    name_ru = models.CharField(max_length=100, verbose_name='Nomi ru', unique=True)
+    name_en = models.CharField(max_length=100, verbose_name='Nomi en', unique=True)
 
     def __str__(self):
-        return self.name
+        return self.name_uz
 
     class Meta:
         verbose_name = "Xizmat turlari"
@@ -83,12 +38,12 @@ class Brock(Base):
 
 
 class Region(Base):
-    name_uz = models.CharField(max_length=100, verbose_name='Nomi', unique=True)
-    name_ru = models.CharField(max_length=100, verbose_name='Nomi', unique=True)
-    name_en = models.CharField(max_length=100, verbose_name='Nomi', unique=True)
+    name_uz = models.CharField(max_length=100, verbose_name='Nomi uz', unique=True)
+    name_ru = models.CharField(max_length=100, verbose_name='Nomi ru', unique=True)
+    name_en = models.CharField(max_length=100, verbose_name='Nomi en', unique=True)
 
     def __str__(self):
-        return self.name
+        return self.name_uz
 
     class Meta:
         verbose_name = "Viloyatlar"
@@ -103,10 +58,47 @@ class Service(Base):
     def __str__(self):
         return self.name
 
-    def brock_see(self):
-        return ",\n".join([g.name for g in self.brock.all()])
-    def region_see(self):
-        return ",\n".join([g.name for g in self.region.all()])
+    def Xizmatlar(self):
+        return ",\n".join([g.name_uz for g in self.brock.all()])
+    def Viloyatlar(self):
+        return ",\n".join([g.name_uz for g in self.region.all()])
     class Meta:
         verbose_name = "Xizmatchilar"
         verbose_name_plural = "Xizmatchilar"
+
+
+
+class Category(Base):
+    name_uz = models.CharField(max_length=200, verbose_name='Kategroiya nomi uz')
+    name_ru = models.CharField(max_length=200, verbose_name='Kategroiya nomi ru')
+    name_en = models.CharField(max_length=200, verbose_name='Kategroiya nomi en')
+
+    def __str__(self):
+        return self.name_uz
+
+    class Meta:
+        verbose_name = "Kategroiyalar"
+        verbose_name_plural = "Kategroiyalar"
+
+
+class Product(Base):
+    name_uz = models.CharField(max_length=200, verbose_name='Tovar nomi en')
+    name_ru = models.CharField(max_length=200, verbose_name='Tovar nomi ru')
+    name_en = models.CharField(max_length=200, verbose_name='Tovar nomi en')
+    phone = models.CharField(verbose_name='Telefon raqami', max_length=15)
+    region = models.ForeignKey(Region, verbose_name='Tovar hududi', on_delete=models.CASCADE)
+    analog = models.ManyToManyField("self", blank=True, verbose_name='Analog')
+    price = models.CharField(max_length=100, verbose_name='Tovar narxi')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Tovar kategoriyasi')
+    descr_uz = models.TextField(verbose_name='Tovar ma\'lumotlari en')
+    descr_ru = models.TextField(verbose_name='Tovar ma\'lumotlari ru')
+    descr_en = models.TextField(verbose_name='Tovar ma\'lumotlari en')
+
+    def __str__(self):
+        return self.name_uz
+    def Analoglar(self):
+        return ",\n".join([g.name_uz for g in self.analog.all()])
+    class Meta:
+        verbose_name = "Tovarlar"
+        verbose_name_plural = "Tovarlar"
+
