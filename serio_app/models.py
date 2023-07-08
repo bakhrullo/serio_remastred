@@ -52,7 +52,7 @@ class Region(Base):
 class Service(Base):
     name = models.CharField(max_length=100, verbose_name='Nomi', unique=True)
     phone = models.CharField(max_length=100, verbose_name='Raqam')
-    weight = models.CharField(max_length=100, verbose_name='Og\'irligi')
+    weight = models.CharField(max_length=100, verbose_name='Og\'irligi', null=True, blank=True)
     region = models.ManyToManyField(Region, verbose_name='Viloyat')
     brock = models.ManyToManyField(Brock, verbose_name='Xizmat')
     def __str__(self):
@@ -90,9 +90,9 @@ class Product(Base):
     analog = models.ManyToManyField("self", blank=True, verbose_name='Analog')
     price = models.CharField(max_length=100, verbose_name='Tovar narxi')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Tovar kategoriyasi')
-    descr_uz = models.TextField(verbose_name='Tovar ma\'lumotlari en')
-    descr_ru = models.TextField(verbose_name='Tovar ma\'lumotlari ru')
-    descr_en = models.TextField(verbose_name='Tovar ma\'lumotlari en')
+    descr_uz = models.TextField(verbose_name='Tovar ma\'lumotlari en', null=True, blank=True)
+    descr_ru = models.TextField(verbose_name='Tovar ma\'lumotlari ru', null=True, blank=True)
+    descr_en = models.TextField(verbose_name='Tovar ma\'lumotlari en', null=True, blank=True)
 
     def __str__(self):
         return self.name_uz
