@@ -19,6 +19,7 @@ class UserGetView(RetrieveAPIView):
     lookup_field = 'tg_id'
     queryset = User.objects.all()
 
+
 class BrockListView(ListAPIView):
     serializer_class = BrockSerializer
     queryset = Brock.objects.all()
@@ -37,11 +38,18 @@ class ServiceListView(ListAPIView):
                                       region=self.request.query_params.get("region"))
 
 
-
-
 class CategoryListView(ListAPIView):
     serializer_class = CategorySerializer
-    queryset = Category.objects.all()
+
+    def get_queryset(self):
+        option = self.request.query_params.get("option")
+        cat_id = self.request.query_params.get("cat_id")
+        if option == "glob":
+            return GlobCategory.objects.all()
+        elif option == "cat":
+            return Category.objects.filter(glob_cat_id=cat_id)
+        elif option == "sub":
+            return SubCategory.objects.filter(cat_id=cat_id)
 
 
 class AnalogListView(ListAPIView):
@@ -50,11 +58,12 @@ class AnalogListView(ListAPIView):
     def get_queryset(self):
         return Product.objects.filter(analog=self.request.query_params.get("prod_id"))
 
+
 class ProductSearchView(ListAPIView):
     serializer_class = ProductSerializer
 
     def get_queryset(self):
-        lang, option = self.request.query_params.get('lang'),  self.request.query_params.get('option')
+        lang, option = self.request.query_params.get('lang'), self.request.query_params.get('option')
         if lang == "uz":
             return Product.objects.filter(name_uz__icontains=option)
         elif lang == "ru":
@@ -68,10 +77,16 @@ class ProductListView(ListAPIView):
 
     def get_queryset(self):
         prod_cat_id = self.request.query_params.get('cat_id')
-        return Product.objects.filter(category_id=prod_cat_id)
+        return Product.objects.filter(sub_category_id=prod_cat_id)
 
 
 class ProductGetView(RetrieveAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
     lookup_field = "id"
+
+
+class ImagesGetView(RetrieveAPIView):
+    serializer_class = ImagesSerializer
+    queryset = Images.objects.all()
+    lookup_field = "name"

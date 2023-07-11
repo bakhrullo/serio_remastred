@@ -72,29 +72,30 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'serio_proj.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': config.db.name,
-         'USER': config.db.user,
-         'PASSWORD': config.db.password,
-         'HOST': config.db.host,
-         'PORT': config.db.port,
-     }
- }
+# DATABASES = {
+#      'default': {
+#          'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#          'NAME': config.db.name,
+#          'USER': config.db.user,
+#          'PASSWORD': config.db.password,
+#          'HOST': config.db.host,
+#          'PORT': config.db.port,
+#      }
+#  }
 
-#DATABASES = {
-#    'default': {
- #       'ENGINE': 'django.db.backends.sqlite3',
-  #      'NAME': BASE_DIR / 'db.sqlite3',
-   # }
-#}
+DATABASES = {
+   'default': {
+       'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': BASE_DIR / 'db.sqlite3',
+   }
+}
 
 
 # Password validation
@@ -131,9 +132,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static'
 
+STATIC_URL = 'static/'
+if DEBUG:
+    STATICFILES_DIRS = [
+        BASE_DIR / "static",
+    ]
+else:
+    STATIC_ROOT = BASE_DIR / "static"
+
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
