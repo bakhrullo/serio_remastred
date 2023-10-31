@@ -24,11 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config.misc.secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['http://185.65.202.40:4898/']
+CSRF_TRUSTED_ORIGINS = ['http://domen.maxone.uz']
 # Application definition
 
 INSTALLED_APPS = [
