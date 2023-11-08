@@ -11,6 +11,7 @@ urlpatterns = [
     path('service/get', ServiceListView.as_view()),
     path('category/', CategoryListView.as_view()),
     path('analog/', AnalogListView.as_view()),
+    path('analog_type/', AnalogTypeListView.as_view()),
     path('product/', ProductListView.as_view()),
     path('product/search', ProductSearchView.as_view()),
     path('product/<int:id>', ProductGetView.as_view()),

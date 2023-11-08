@@ -59,6 +59,13 @@ class AnalogListView(ListAPIView):
         return Product.objects.filter(analog=self.request.query_params.get("prod_id"))
 
 
+class AnalogTypeListView(ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        return Product.objects.filter(name=self.request.query_params.get("name"))
+
+
 class ProductSearchView(ListAPIView):
     serializer_class = ProductSerializer
 
